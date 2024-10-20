@@ -17,7 +17,7 @@ export const useAppStore = create<{
     name: APP_METADATA.SITE_NAME,
     version: '0.0.0',
     env: String(process.env.NEXT_PUBLIC_APP_ENV),
-    debug: process.env.NEXT_PUBLIC_APP_DEBUG === 'true',
+    debug: String(process.env.NEXT_PUBLIC_APP_DEBUG) === 'true',
     loading: false,
     initialized: false,
     links: [
@@ -28,14 +28,8 @@ export const useAppStore = create<{
             sublinks: [],
         },
         {
-            name: 'Projects',
-            path: AppPagePaths.PROJECTS,
-            enabled: true,
-            sublinks: [],
-        },
-        {
-            name: 'About',
-            path: AppPagePaths.ABOUT,
+            name: 'Xata',
+            path: AppPagePaths.XATA,
             enabled: true,
             sublinks: [],
         },

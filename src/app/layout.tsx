@@ -8,6 +8,8 @@ import { Suspense } from 'react'
 import Footer from '../components/layouts/Footer'
 import { ThemeProvider } from 'next-themes'
 import { AppThemes } from '@/enums'
+import ReactQueryProvider from '@/providers/react-query.provider'
+import { Toaster } from 'react-hot-toast'
 
 // https://fonts.google.com/
 const font = Ubuntu_Mono({ weight: ['400', '700'], subsets: ['latin'] })
@@ -49,19 +51,22 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
             <body className={cn(font.className, 'h-screen w-screen overflow-hidden')}>
                 <ThemeProvider attribute="class" defaultTheme={AppThemes.DARK} disableTransitionOnChange themes={Object.values(AppThemes)}>
-                    <main className="background-wallpaper flex h-full w-full flex-col bg-background text-lg text-primary transition-all md:text-base">
-                        <Header className="h-16 px-4 text-base sm:h-20 sm:text-lg" />
-                        <Suspense
-                            fallback={
-                                <div className="flex h-full w-full items-center justify-center">
-                                    <p className="text-orange-500">App loading...</p>
-                                </div>
-                            }
-                        >
-                            <div className="h-full overflow-scroll">{children}</div>
-                        </Suspense>
-                        <Footer className="md:p-3" />
-                    </main>
+                    <ReactQueryProvider>
+                        <main className="background-wallpaper flex h-full w-full flex-col bg-background text-lg text-primary transition-all md:text-base">
+                            <Header className="h-16 px-4 text-base sm:h-20 sm:text-lg" />
+                            <Suspense
+                                fallback={
+                                    <div className="flex h-full w-full items-center justify-center">
+                                        <p className="text-orange-500">App loading...</p>
+                                    </div>
+                                }
+                            >
+                                <div className="h-full overflow-scroll">{children}</div>
+                            </Suspense>
+                            <Footer className="md:p-3" />
+                            <Toaster position="bottom-center" reverseOrder={false} />
+                        </main>
+                    </ReactQueryProvider>
                 </ThemeProvider>
             </body>
         </html>

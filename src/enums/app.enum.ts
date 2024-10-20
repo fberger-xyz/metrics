@@ -1,7 +1,6 @@
 export enum AppPagePaths {
     HOME = '/',
-    PROJECTS = '/projects',
-    ABOUT = '/about',
+    XATA = '/xata',
 }
 
 export enum AppThemes {
