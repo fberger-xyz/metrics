@@ -1,5 +1,7 @@
 import dayjs from 'dayjs'
 import { inngest } from './client'
+import timezone from 'dayjs/plugin/timezone'
+dayjs.extend(timezone)
 
 const format = 'D MMMM YYYY hh:mm:ss A'
 const timestamp = () => dayjs().tz('Europe/London').format(format)
