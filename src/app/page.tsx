@@ -6,7 +6,7 @@ export default function Page() {
     return (
         <PageWrapper>
             https://www.inngest.com/docs/deploy/vercel?ref=app-onboarding-events
-            https://nextjs.org/docs/pages/building-your-application/configuring/mdx https://www.youtube.com/watch?v=DG_WT8Gwzho
+            https://nextjs.org/docs/pages/building-your-application/configuring/mdx
             <TransactionsFetcher />
             {/* <VaultReallocatesFetcher /> */}
         </PageWrapper>
