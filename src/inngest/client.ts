@@ -1,2 +1,7 @@
 import { Inngest } from 'inngest'
-export const inngest = new Inngest({ id: 'my-app' })
+
+console.log('process.env.BRANCH', process.env.BRANCH)
+export const inngest = new Inngest({
+    id: 'metrics',
+    // env: process.env.BRANCH,
+})
