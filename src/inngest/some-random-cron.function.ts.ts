@@ -7,7 +7,7 @@ dayjs.extend(utc)
 dayjs.extend(timezone)
 
 const format = 'D MMMM YYYY hh:mm:ss A'
-const timestamp = () => dayjs().tz('Europe/London').format(format)
+const timestamp = () => dayjs().tz('Europe/Paris').format(format)
 export const someRandomCron = inngest.createFunction({ id: 'some-random-cron' }, { cron: 'TZ=Europe/Paris * * * * *' }, async ({ event, step }) => {
     await step.run('1', async () => console.log(timestamp(), 'step 1'))
     await step.run('2', async () => console.log(timestamp(), 'step 2'))
