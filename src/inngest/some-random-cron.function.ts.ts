@@ -1,6 +1,9 @@
 import dayjs from 'dayjs'
 import { inngest } from './client'
 import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
+
+dayjs.extend(utc)
 dayjs.extend(timezone)
 
 const format = 'D MMMM YYYY hh:mm:ss A'
