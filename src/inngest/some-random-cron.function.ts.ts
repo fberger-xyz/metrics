@@ -10,6 +10,8 @@ const format = 'D MMMM YYYY hh:mm:ss A'
 const timestamp = () => dayjs().tz('Europe/Paris').format(format)
 
 // https://crontab.guru/every-5-minutes
+// https://vercel.com/docs/cron-jobs
+
 export const someRandomCron = inngest.createFunction(
     { id: 'some-random-cron' },
     { cron: 'TZ=Europe/Paris */30 * * * *' },

@@ -35,10 +35,29 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-
-.env
-.env.local
-
 # xata
 .xatarc
 .xata
+
+#
+# --------- env ---------
+#
+
+.env
+.env.*
+
+# env = dev
+.env.local
+*.local
+.env.development
+*.development
+
+# env = preview
+.env.test
+*.test
+.env.preview
+*.preview
+
+# env = production
+.env.production
+*.production
