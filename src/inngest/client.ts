@@ -1,7 +1,7 @@
 import { Inngest } from 'inngest'
 
-console.log('process.env.BRANCH', process.env.BRANCH)
+if (!process.env.INGEST_CLIENT_ID) throw new Error(`value not found for INGEST_CLIENT_ID: ${process.env.INGEST_CLIENT_ID}`)
 export const inngest = new Inngest({
-    id: 'metrics',
+    id: String(process.env.INGEST_CLIENT_ID) ?? 'metrics',
     env: process.env.INGEST_BRANCH,
 })
