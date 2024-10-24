@@ -3,10 +3,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export const config = {
-    runtime: 'nodejs',
-}
-
+export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic' // static by default, unless reading the request
 
 export function GET(request: NextRequest) {
