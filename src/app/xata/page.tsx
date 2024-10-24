@@ -12,7 +12,7 @@ export default async function Page() {
     const posts = await getPosts()
     return (
         <PageWrapper>
-            <div className="flex flex-col">
+            <div className="flex w-full flex-col overflow-scroll border border-discreet p-1">
                 <pre>isUserAuthenticated={JSON.stringify(isUserAuthenticated, null, 2)}</pre>
                 <pre>user={JSON.stringify(user, null, 2)}</pre>
                 <LoginLink postLoginRedirectURL={AppPagePaths.XATA}>Log in</LoginLink>
@@ -20,27 +20,29 @@ export default async function Page() {
                 <LogoutLink>Log out</LogoutLink>
             </div>
 
-            {!posts ? (
-                <p>Log in to see posts</p>
-            ) : posts.length === 0 ? (
-                <p>No blog posts found</p>
-            ) : (
-                posts.map((post) => (
-                    <div key={post.xata_id} className="mb-16">
-                        <p className="mb-2 text-xs text-purple-950 dark:text-purple-200">{post.created_at?.toDateString()}</p>
-                        <h2 className="mb-2 text-2xl">
-                            <a href={`posts/${post.slug}`}>{post.title}</a>
-                        </h2>
-                        <p className="mb-5 text-purple-950 dark:text-purple-200">{post.labels}</p>
-                        <a
-                            href={`posts/${post.slug}`}
-                            className="w-fit rounded-lg bg-purple-700 px-4 py-2 text-sm font-semibold text-white shadow-sm"
-                        >
-                            Read more &rarr;
-                        </a>
-                    </div>
-                ))
-            )}
+            <div className="w-full border border-discreet p-1">
+                {!posts ? (
+                    <p>Log in to see posts</p>
+                ) : posts.length === 0 ? (
+                    <p>No blog posts found</p>
+                ) : (
+                    posts.map((post) => (
+                        <div key={post.xata_id} className="mb-16">
+                            <p className="mb-2 text-xs text-purple-950 dark:text-purple-200">{post.created_at?.toDateString()}</p>
+                            <h2 className="mb-2 text-2xl">
+                                <a href={`posts/${post.slug}`}>{post.title}</a>
+                            </h2>
+                            <p className="mb-5 text-purple-950 dark:text-purple-200">{post.labels}</p>
+                            <a
+                                href={`posts/${post.slug}`}
+                                className="w-fit rounded-lg bg-purple-700 px-4 py-2 text-sm font-semibold text-white shadow-sm"
+                            >
+                                Read more &rarr;
+                            </a>
+                        </div>
+                    ))
+                )}
+            </div>
         </PageWrapper>
     )
 }
