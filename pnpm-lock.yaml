@@ -41,6 +41,9 @@ dependencies:
   dayjs:
     specifier: ^1.11.12
     version: 1.11.12
+  grammy:
+    specifier: ^1.30.0
+    version: 1.30.0
   graphql-request:
     specifier: ^7.1.0
     version: 7.1.0(graphql@16.9.0)
@@ -1408,6 +1411,10 @@ packages:
       typescript: 5.0.2
     dev: true
 
+  /@grammyjs/types@3.14.0:
+    resolution: {integrity: sha512-uUVikYAiHNU8CvkeQ6YA/QPbMLgTTpFVLp83VkXCs423w6cDsvfdA6bcrQJGUnc/Q6zHQXXZUftXDYl2b/6L4A==}
+    dev: false
+
   /@graphql-codegen/add@5.0.3(graphql@16.9.0):
     resolution: {integrity: sha512-SxXPmramkth8XtBlAHu4H4jYcYXM/o3p01+psU+0NADQowA8jtYkK6MW5rV6T+CxkEaNZItfSmZRPgIuypcqnA==}
     peerDependencies:
@@ -2759,6 +2766,13 @@ packages:
       typescript: '>=4.5'
     dependencies:
       typescript: 5.0.2
+    dev: false
+
+  /abort-controller@3.0.0:
+    resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
+    engines: {node: '>=6.5'}
+    dependencies:
+      event-target-shim: 5.0.1
     dev: false
 
   /acorn-jsx@5.3.2(acorn@8.12.1):
@@ -4198,6 +4212,11 @@ packages:
       - utf-8-validate
     dev: false
 
+  /event-target-shim@5.0.1:
+    resolution: {integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==}
+    engines: {node: '>=6'}
+    dev: false
+
   /external-editor@3.1.0:
     resolution: {integrity: sha512-hMQ4CX1p1izmuLYyZqLMO/qGNw10wSv9QDCPfzXfyFrOaCSSoRfqE1Kf1s5an66J5JZC62NewG+mK49jOCtQew==}
     engines: {node: '>=4'}
@@ -4509,6 +4528,19 @@ packages:
 
   /graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
+
+  /grammy@1.30.0:
+    resolution: {integrity: sha512-uD1kMbgR04qIed4z+eHc68t41ZyzPC3mbHSJD+hQtoTA6RkBSgVxL2HJLmgP7cUjEirlkxHjV6F7Hl7a4Ozvbg==}
+    engines: {node: ^12.20.0 || >=14.13.1}
+    dependencies:
+      '@grammyjs/types': 3.14.0
+      abort-controller: 3.0.0
+      debug: 4.3.7
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
 
   /graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}

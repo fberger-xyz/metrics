@@ -25,6 +25,7 @@
     "@xata.io/client": "0.0.0-next.va121e4207b94bfe0a3c025fc00b247b923880930",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.12",
+    "grammy": "^1.30.0",
     "graphql-request": "^7.1.0",
     "inngest": "^3.23.1",
     "next": "14.2.5",
