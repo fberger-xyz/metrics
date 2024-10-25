@@ -22,13 +22,13 @@ if (!groupId) throw new Error('TELEGRAM_GROUP_ID environment variable not found.
 
 export const postTelegramMessageInGroupCron = inngest.createFunction(
     { id: 'post-telegram-message-in-group-cron' },
-    { cron: 'TZ=Europe/Paris */5 * * * *' },
+    { cron: 'TZ=Europe/Paris */30 * * * *' },
     async ({ event, step }) => {
         // 1
         await step.run('Send telegram message in group', async () => {
             const bot = new Bot(token)
             const chatId = groupId
-            const message = `This is a cron job - ${timestamp()}`
+            const message = `This is a ${process.env.NODE_ENV} cron job - ${timestamp()}`
             await bot.api.sendMessage(chatId, message)
         })
 

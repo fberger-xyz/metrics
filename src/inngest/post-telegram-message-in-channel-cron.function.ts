@@ -22,13 +22,13 @@ if (!channelId) throw new Error('TELEGRAM_CHANNEL_ID environment variable not fo
 
 export const postTelegramMessageInChannelCron = inngest.createFunction(
     { id: 'post-telegram-message-in-channel-cron' },
-    { cron: 'TZ=Europe/Paris * * * * *' },
+    { cron: 'TZ=Europe/Paris */30 * * * *' },
     async ({ event, step }) => {
         // 1
         await step.run('Send telegram message in channel', async () => {
             const bot = new Bot(token)
             const chatId = channelId
-            const message = `This is a cron job - ${timestamp()}`
+            const message = `This is a ${process.env.NODE_ENV} cron job - ${timestamp()}`
             await bot.api.sendMessage(chatId, message)
         })
 
