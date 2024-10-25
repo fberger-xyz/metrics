@@ -1,6 +1,7 @@
 export enum AppPagePaths {
     HOME = '/',
     XATA = '/xata',
+    ADMIN = '/admin',
 }
 
 export enum AppThemes {

@@ -33,6 +33,12 @@ export const useAppStore = create<{
             enabled: true,
             sublinks: [],
         },
+        {
+            name: 'Admin',
+            path: AppPagePaths.ADMIN,
+            enabled: true,
+            sublinks: [],
+        },
     ],
     actions: {},
     computeds: {},
