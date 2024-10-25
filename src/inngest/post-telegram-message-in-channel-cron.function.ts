@@ -13,7 +13,7 @@ const timestamp = () => dayjs().tz('Europe/Paris').format(format)
 // telegram
 const token = process.env.TELEGRAM_BOT_TOKEN
 if (!token) throw new Error('TELEGRAM_BOT_TOKEN environment variable not found.')
-const channelId = process.env.TELEGRAM_CHANNEL_ID
+const channelId = String(process.env.TELEGRAM_CHANNEL_ID)
 if (!channelId) throw new Error('TELEGRAM_CHANNEL_ID environment variable not found.')
 
 // doc
@@ -22,7 +22,7 @@ if (!channelId) throw new Error('TELEGRAM_CHANNEL_ID environment variable not fo
 
 export const postTelegramMessageInChannelCron = inngest.createFunction(
     { id: 'post-telegram-message-in-channel-cron' },
-    { cron: 'TZ=Europe/Paris * * * * *' },
+    { cron: 'TZ=Europe/Paris */30 * * * *' },
     async ({ event, step }) => {
         // 1
         await step.run('Send telegram message', async () => {

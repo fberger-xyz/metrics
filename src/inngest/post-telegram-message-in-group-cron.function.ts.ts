@@ -13,7 +13,7 @@ const timestamp = () => dayjs().tz('Europe/Paris').format(format)
 // telegram
 const token = process.env.TELEGRAM_BOT_TOKEN
 if (!token) throw new Error('TELEGRAM_BOT_TOKEN environment variable not found.')
-const groupId = process.env.TELEGRAM_GROUP_ID
+const groupId = String(process.env.TELEGRAM_GROUP_ID)
 if (!groupId) throw new Error('TELEGRAM_GROUP_ID environment variable not found.')
 
 // doc
