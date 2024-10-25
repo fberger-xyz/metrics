@@ -13,27 +13,27 @@ const timestamp = () => dayjs().tz('Europe/Paris').format(format)
 // telegram
 const token = process.env.TELEGRAM_BOT_TOKEN
 if (!token) throw new Error('TELEGRAM_BOT_TOKEN environment variable not found.')
-const groupId = String(process.env.TELEGRAM_GROUP_ID)
-if (!token) throw new Error('TELEGRAM_GROUP_ID environment variable not found.')
+const channelId = process.env.TELEGRAM_CHANNEL_ID
+if (!channelId) throw new Error('TELEGRAM_CHANNEL_ID environment variable not found.')
 
 // doc
 // https://crontab.guru/every-5-minutes
 // https://vercel.com/docs/cron-jobs
 
-export const postTelegramMessageCron = inngest.createFunction(
-    { id: 'post-telegram-message-cron' },
+export const postTelegramMessageInChannelCron = inngest.createFunction(
+    { id: 'post-telegram-message-in-channel-cron' },
     { cron: 'TZ=Europe/Paris * * * * *' },
     async ({ event, step }) => {
         // 1
         await step.run('Send telegram message', async () => {
             const bot = new Bot(token)
-            const chatId = groupId
+            const chatId = channelId
             const message = `This is a cron job - ${timestamp()}`
             await bot.api.sendMessage(chatId, message)
         })
 
         // 2
-        const getMe = await step.run('Send telegram message', async () => {
+        const getMe = await step.run('Get bot data', async () => {
             const bot = new Bot(token)
             const getMe = await bot.api.getMe()
             return getMe
