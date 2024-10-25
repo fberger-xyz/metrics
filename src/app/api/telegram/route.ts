@@ -3,25 +3,24 @@ export const dynamic = 'force-dynamic'
 export const fetchCache = 'force-no-store'
 
 import { PrismaClient } from '@prisma/client'
-// imports the Bot and webhookCallback helpers from the Grammy SDK
 import { Bot, Context, GrammyError, HttpError, NextFunction, webhookCallback } from 'grammy'
-
 const token = process.env.TELEGRAM_BOT_TOKEN
 if (!token) throw new Error('TELEGRAM_BOT_TOKEN environment variable not found.')
+const debug = false
 
 /**
  * initializes a Telegram Bot API compatible bot instance
  */
 
 const bot = new Bot(token)
-console.log('Telegram: bot instanciated')
+if (debug) console.log('Telegram: bot instanciated')
 
 /**
  * initializes Prisma client to store message from middleware
  */
 
 const prisma = new PrismaClient()
-console.log('Telegram: prisma client instanciated')
+if (debug) console.log('Telegram: prisma client instanciated')
 
 /**
  * apply middlewares
@@ -33,7 +32,7 @@ async function responseTime(ctx: Context, next: NextFunction): Promise<void> {
 
     // logic
     const findMany = await prisma.posts.findMany()
-    console.log('findMany.length', findMany.length)
+    if (debug) console.log('findMany.length', findMany.length)
 
     // invoke downstream middleware
     await next()
@@ -42,7 +41,7 @@ async function responseTime(ctx: Context, next: NextFunction): Promise<void> {
 }
 
 bot.use(responseTime)
-console.log('Telegram: middleware applied')
+if (debug) console.log('Telegram: middleware applied')
 
 /**
  * handle errors
@@ -57,7 +56,7 @@ bot.catch((err) => {
     else if (e instanceof HttpError) console.error('Could not contact Telegram:', e)
     else console.error('Unknown error:', e)
 })
-console.log('Telegram: errors catched')
+if (debug) console.log('Telegram: errors catched')
 
 /**
  * handle message, commands, etc
