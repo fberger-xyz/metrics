@@ -1,14 +1,17 @@
+import LinkWithIcon from '@/components/common/LinkWithIcon'
 import PageWrapper from '@/components/common/PageWrapper'
-import { TransactionsFetcher } from '@/components/data/TransactionsFetcher'
-// import { VaultReallocatesFetcher } from '@/components/data/VaultReallocatesFetcher'
+import { AptosBlockFetcher } from '@/components/data/AptosBlockFetcher'
+// import { TransactionsFetcher } from '@/components/data/TransactionsFetcher'
 
 export default function Page() {
     return (
         <PageWrapper>
-            https://www.inngest.com/docs/deploy/vercel?ref=app-onboarding-events
-            https://nextjs.org/docs/pages/building-your-application/configuring/mdx
-            <TransactionsFetcher />
+            <LinkWithIcon href="https://t.me/+R7QS7yXrDX4zMWU0">
+                <p>Telegram</p>
+            </LinkWithIcon>
+            {/* <TransactionsFetcher /> */}
             {/* <VaultReallocatesFetcher /> */}
+            <AptosBlockFetcher />
         </PageWrapper>
     )
 }

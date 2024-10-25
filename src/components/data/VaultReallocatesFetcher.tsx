@@ -90,7 +90,7 @@ export function VaultReallocatesFetcher() {
     return (
         <div>
             <h1>status: {query.status}</h1>
-            <h1>dataUpdatedAt: {dayjs(query.dataUpdatedAt).format('ddd. DD MMM. YYYY hh:mm:ss')}</h1>
+            <h1>updated at: {dayjs(query.dataUpdatedAt).format('ddd. DD MMM. YYYY hh:mm:ss')} UTC</h1>
             <pre className="bg-light-hover p-2 text-xs">{JSON.stringify(query.data, null, 2)}</pre>
         </div>
     )
