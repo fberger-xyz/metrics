@@ -17,11 +17,6 @@ export const someRandomCron = inngest.createFunction(
     { cron: 'TZ=Europe/Paris */30 * * * *' },
     async ({ event, step }) => {
         await step.run('Do stuff', async () => console.log(timestamp(), 'Do stuff'))
-        // await step.run('1', async () => console.log(timestamp(), 'step 1'))
-        // await step.run('2', async () => console.log(timestamp(), 'step 2'))
-        // await step.run('3', async () => console.log(timestamp(), 'step 3'))
-        // await step.run('4', async () => console.log(timestamp(), 'step 4'))
-        // await step.run('5', async () => console.log(timestamp(), 'step 5'))
         return { event, body: `Done at ${timestamp()}` }
     },
 )
