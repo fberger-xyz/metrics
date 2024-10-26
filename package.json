@@ -4,13 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && prisma db pull && next build",
     "start": "next start",
     "lint": "next lint",
     "eslint:fix": "eslint ./src --fix",
     "prettier:fix": "prettier --write src",
-    "lint:fix": "pnpm eslint:fix && pnpm prettier:fix",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build"
+    "lint:fix": "pnpm eslint:fix && pnpm prettier:fix"
   },
   "dependencies": {
     "@kinde-oss/kinde-auth-nextjs": "^2.3.11",
