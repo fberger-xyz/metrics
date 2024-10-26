@@ -27,20 +27,32 @@ export const beaconchainSnapshotCron = inngest.createFunction(
     { cron: 'TZ=Europe/Paris */30 * * * *' }, // https://crontab.guru/every-1-hour
     async ({ event, step }) => {
         // epoch
-        const before = Date.now()
-        const epoch = await step.run('1. Epoch', async () => await BeaconChainAPI.getEpoch(BeaconChainEpoch.LATEST))
-        const afterEpoch = Date.now()
+        const { epoch, ms: epochMs } = await step.run('1. Epoch', async () => {
+            const before = Date.now()
+            const epoch = await BeaconChainAPI.getEpoch(BeaconChainEpoch.LATEST)
+            const after = Date.now()
+            return { epoch, ms: after - before }
+        })
 
         // queue
-        const queue = await step.run('2. Queue', async () => await BeaconChainAPI.getQueue())
-        const afterQueue = Date.now()
+        const { queue, ms: queueMs } = await step.run('2. Queue', async () => {
+            const before = Date.now()
+            const queue = await BeaconChainAPI.getQueue()
+            const after = Date.now()
+            return { queue, ms: after - before }
+        })
 
         // apr
-        const apr = await step.run('3. APR', async () => await BeaconChainAPI.getAPR(BeaconChainEpoch.LATEST))
-        const afterApr = Date.now()
+        const { apr, ms: aprMs } = await step.run('3. APR', async () => {
+            const before = Date.now()
+            const apr = await BeaconChainAPI.getAPR(BeaconChainEpoch.LATEST)
+            const after = Date.now()
+            return { apr, ms: after - before }
+        })
 
         // xata
-        await step.run('4. Xata', async () => {
+        const { ms: xataMs } = await step.run('4. Xata', async () => {
+            const before = Date.now()
             await prisma.beaconchain.create({
                 data: {
                     epoch: epoch.raw?.data,
@@ -48,15 +60,22 @@ export const beaconchainSnapshotCron = inngest.createFunction(
                     apr: apr.raw?.data,
                 },
             })
+            const after = Date.now()
+            return { ms: after - before }
         })
 
         // telegram
-        const telegramNotification = await step.run('5. Notify execution', async () => {
+        const { ms: telegramMs } = await step.run('5. Notify execution', async () => {
+            const before = Date.now()
             const bot = new Bot(token)
             const chatId = channelId
-            const message = `${timestamp()}\nSnapshot of beaconchain metrics.\nEpoch: ${epoch ? `OK ${afterEpoch - before}ms` : 'Error'} | Queue: ${queue ? `OK ${afterQueue - afterEpoch}ms` : 'Error'} | apr: ${apr ? `OK ${afterApr - afterQueue}ms` : 'Error'}`
-            return await bot.api.sendMessage(chatId, message)
+            const message = `${timestamp()}\nSnapshot of beaconchain metrics (${process.env.NODE_ENV})\nEpoch: ${epochMs}ms | Queue: ${queueMs}ms | APR: ${aprMs}ms | xata: ${xataMs}ms | Telegram: ${telegramMs}ms`
+            await bot.api.sendMessage(chatId, message)
+            const after = Date.now()
+            return { ms: after - before }
         })
-        return { event, body: `Done at ${timestamp()}`, beaconchain: { epoch, queue, apr }, telegramNotification }
+
+        // finally
+        return { event, body: `Done at ${timestamp()}`, beaconchain: { epoch, queue, apr } }
     },
 )
