@@ -26,9 +26,20 @@ export const beaconchainSnapshotCron = inngest.createFunction(
     { id: 'beaconchain-snapshot-cron' },
     { cron: 'TZ=Europe/Paris */30 * * * *' }, // https://crontab.guru/every-1-hour
     async ({ event, step }) => {
+        // epoch
+        const before = Date.now()
         const epoch = await step.run('1. Epoch', async () => await BeaconChainAPI.getEpoch(BeaconChainEpoch.LATEST))
+        const afterEpoch = Date.now()
+
+        // queue
         const queue = await step.run('2. Queue', async () => await BeaconChainAPI.getQueue())
+        const afterQueue = Date.now()
+
+        // apr
         const apr = await step.run('3. APR', async () => await BeaconChainAPI.getAPR(BeaconChainEpoch.LATEST))
+        const afterApr = Date.now()
+
+        // xata
         await step.run('4. Xata', async () => {
             await prisma.beaconchain.create({
                 data: {
@@ -38,10 +49,12 @@ export const beaconchainSnapshotCron = inngest.createFunction(
                 },
             })
         })
+
+        // telegram
         const telegramNotification = await step.run('5. Notify execution', async () => {
             const bot = new Bot(token)
             const chatId = channelId
-            const message = `${timestamp()}\nSnapshot of beaconchain metrics.\nEpoch: ${epoch ? 'OK' : 'Error'} | Queue: ${queue ? 'OK' : 'Error'} | apr: ${apr ? 'OK' : 'Error'}`
+            const message = `${timestamp()}\nSnapshot of beaconchain metrics.\nEpoch: ${epoch ? `OK ${afterEpoch - before}ms` : 'Error'} | Queue: ${queue ? `OK ${afterQueue - afterEpoch}ms` : 'Error'} | apr: ${apr ? `OK ${afterApr - afterQueue}ms` : 'Error'}`
             return await bot.api.sendMessage(chatId, message)
         })
         return { event, body: `Done at ${timestamp()}`, beaconchain: { epoch, queue, apr }, telegramNotification }
