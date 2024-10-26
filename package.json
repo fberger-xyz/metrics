@@ -10,7 +10,7 @@
     "eslint:fix": "eslint ./src --fix",
     "prettier:fix": "prettier --write src",
     "lint:fix": "pnpm eslint:fix && pnpm prettier:fix",
-    "postinstall": "prisma generate"
+    "vercel-build": "prisma generate && prisma migrate deploy && next build"
   },
   "dependencies": {
     "@kinde-oss/kinde-auth-nextjs": "^2.3.11",

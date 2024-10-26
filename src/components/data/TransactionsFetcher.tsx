@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 import { gql, request } from 'graphql-request'
 import { PaginatedTransactions } from '@morpho-org/blue-api-sdk'
 import toast from 'react-hot-toast'
+import { toastStyle } from '@/config/toasts.config'
 
 // https://tanstack.com/query/latest/docs/framework/react/graphql
 // https://the-guild.dev/graphql/codegen/docs/guides/react-query
@@ -43,15 +44,7 @@ export function TransactionsFetcher() {
                     }
                 `,
             )
-            toast.success('Refreshed', {
-                style: {
-                    borderRadius: '8px',
-                    background: 'var(--color-background)',
-                    borderColor: 'var(--color-discreet)',
-                    border: 1,
-                    color: 'var(--color-primary)',
-                },
-            })
+            toast.success('Refreshed', { style: toastStyle })
             return page
         },
         refetchInterval: interval,

@@ -92,7 +92,7 @@ import { NextResponse } from 'next/server'
 //   }
 
 export async function GET() {
-    const responseJson: FunctionReturn<null> = { success: true, data: null, error: '', ts: Date.now() }
+    const responseJson: FunctionReturn<null> = { success: true, raw: null, error: '', ts: Date.now() }
     const morphoApiRoot = 'https://api.morpho.org'
     const morphoAnalytics = `${morphoApiRoot}/analytics`
     try {
@@ -101,7 +101,7 @@ export async function GET() {
             headers: { 'Content-Type': 'application/json' },
             next: { revalidate: false }, // https://nextjs.org/docs/app/api-reference/functions/fetch#optionsnextrevalidate
         })
-        responseJson.data = await response.json()
+        responseJson.raw = await response.json()
     } catch (error) {
         responseJson.success = false
         responseJson.error = 'Unexpected error'
