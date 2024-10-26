@@ -9,7 +9,7 @@ export const usePollingStore = create<{
         clearResults: () => void
     }
 }>((set) => ({
-    interval: 10 * 1000, // default polling interval in milliseconds
+    interval: 15 * 60 * 1000, // default polling interval in milliseconds
     results: [],
     actions: {
         setInterval: (interval) => set({ interval }),

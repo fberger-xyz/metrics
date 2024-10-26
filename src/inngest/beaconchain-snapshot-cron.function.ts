@@ -70,7 +70,7 @@ export const beaconchainSnapshotCron = inngest.createFunction(
             const bot = new Bot(token)
             const chatId = channelId
             const msLine = `Epoch: ${epochMs}ms | Queue: ${queueMs}ms | APR: ${aprMs}ms | Xata: ${xataMs}ms`
-            const message = `Beaconchain metrics snapshot done at ${timestamp()} Paris time\n${event.data?.cron ?? 'Invoked'} on ${process.env.NODE_ENV}\n${msLine}`
+            const message = `Beaconchain metrics snapshot\nDone at ${timestamp()} Paris time\nTrigger: ${event.data?.cron ?? 'invoked'} in ${process.env.NODE_ENV}\n${msLine}`
             await bot.api.sendMessage(chatId, message)
             const after = Date.now()
             return { ms: after - before }
