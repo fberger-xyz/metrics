@@ -41,7 +41,7 @@ export const beaconchainSnapshotCron = inngest.createFunction(
         const telegramNotification = await step.run('5. Notify execution', async () => {
             const bot = new Bot(token)
             const chatId = channelId
-            const message = `[${process.env.NODE_ENV}-${timestamp()}] Snapshot of beaconchain metrics.\n> epoch=${Boolean(epoch)} | queue=${Boolean(queue)} | apr=${Boolean(apr)}`
+            const message = `${timestamp()}\nSnapshot of beaconchain metrics.\nEpoch: ${epoch ? 'OK' : 'Error'} | Queue: ${queue ? 'OK' : 'Error'} | apr: ${apr ? 'OK' : 'Error'}`
             return await bot.api.sendMessage(chatId, message)
         })
         return { event, body: `Done at ${timestamp()}`, beaconchain: { epoch, queue, apr }, telegramNotification }
