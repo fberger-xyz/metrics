@@ -5,12 +5,21 @@ import utc from 'dayjs/plugin/utc'
 import { BeaconChainAPI } from '@/utils'
 import { BeaconChainEpoch } from '@/enums'
 import { PrismaClient } from '@prisma/client'
+import { Bot } from 'grammy'
 
 // helpers
 dayjs.extend(utc)
 dayjs.extend(timezone)
 const format = 'D MMMM YYYY hh:mm:ss A'
 const timestamp = () => dayjs().tz('Europe/Paris').format(format)
+
+// telegram
+const token = process.env.TELEGRAM_BOT_TOKEN
+if (!token) throw new Error('TELEGRAM_BOT_TOKEN environment variable not found.')
+const channelId = String(process.env.TELEGRAM_CHANNEL_ID)
+if (!channelId) throw new Error('TELEGRAM_CHANNEL_ID environment variable not found.')
+
+// prisma
 const prisma = new PrismaClient()
 
 export const beaconchainSnapshotCron = inngest.createFunction(
@@ -29,6 +38,12 @@ export const beaconchainSnapshotCron = inngest.createFunction(
                 },
             })
         })
-        return { event, body: `Done at ${timestamp()}`, beaconchain: { epoch, queue, apr } }
+        const telegramNotification = await step.run('5. Notify execution', async () => {
+            const bot = new Bot(token)
+            const chatId = channelId
+            const message = `[${process.env.NODE_ENV}-${timestamp()}] Snapshot of beaconchain metrics.\n> epoch=${Boolean(epoch)} | queue=${Boolean(queue)} | apr=${Boolean(apr)}`
+            return await bot.api.sendMessage(chatId, message)
+        })
+        return { event, body: `Done at ${timestamp()}`, beaconchain: { epoch, queue, apr }, telegramNotification }
     },
 )
