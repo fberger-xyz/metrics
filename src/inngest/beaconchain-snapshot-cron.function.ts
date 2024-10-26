@@ -24,7 +24,7 @@ const prisma = new PrismaClient()
 
 export const beaconchainSnapshotCron = inngest.createFunction(
     { id: 'beaconchain-snapshot-cron' },
-    { cron: 'TZ=Europe/Paris */30 * * * *' }, // https://crontab.guru/every-1-hour
+    { cron: 'TZ=Europe/Paris * * * * *' }, // https://crontab.guru/every-1-hour
     async ({ event, step }) => {
         // epoch
         const { epoch, ms: epochMs } = await step.run('1. Epoch', async () => {
