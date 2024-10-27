@@ -94,7 +94,7 @@ export default async function Page() {
                 </TableRow>
 
                 {/* rows */}
-                <div className="flex h-[450px] w-full flex-col overflow-y-scroll border border-light-hover">
+                <div className="flex h-[calc(100vh-260px)] w-full flex-col overflow-y-scroll border border-light-hover">
                     {/* for each month */}
                     {farsideDataGroupedBy.map((month, monthIndex) => (
                         <div key={`${monthIndex}-${month.index}`} className="flex flex-col py-1">
