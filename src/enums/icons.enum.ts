@@ -37,6 +37,7 @@ export enum IconIds {
     CONTRACT = 'carbon:cics-program',
 
     // farside
-    RANK = 'solar:ranking-bold-duotone',
+    // RANK = 'solar:ranking-bold-duotone',
+    RANK = 'carbon:trophy',
     SCROLL = 'hugeicons:mouse-scroll-01',
 }

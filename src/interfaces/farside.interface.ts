@@ -13,5 +13,5 @@ export interface FarsideDayData {
     BTC: string | number
     Total: string | number
     TotalCheck: number
-    dayRank?: number
+    rank?: number
 }
