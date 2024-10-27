@@ -34,6 +34,12 @@ export const useAppStore = create<{
             sublinks: [],
         },
         {
+            name: 'Farside',
+            path: AppPagePaths.FARSIDE,
+            enabled: true,
+            sublinks: [],
+        },
+        {
             name: 'Admin',
             path: AppPagePaths.ADMIN,
             enabled: true,

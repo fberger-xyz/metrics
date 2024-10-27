@@ -13,36 +13,41 @@ export function FarsideScrapper() {
         queryKey: ['data'],
         queryFn: async () => {
             const root = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://metrics-five.vercel.app'
-            const pageToScrap = 'https://farside.co.uk/btc/'
+            const pageToScrap = 'https://farside.co.uk/bitcoin-etf-flow-all-data/'
             const response = await fetch(`${root}/api/proxy?url=${encodeURIComponent(pageToScrap)}`, {
                 method: 'GET',
                 headers: { Accept: 'text/html', 'User-Agent': 'Mozilla/5.0' },
             })
             if (!response.ok) throw new Error(`Failed to fetch text/html of ${pageToScrap}`)
             const htmlContent = await response.text()
+            console.log({ htmlContent })
             const parsedHtlm = cheerio.load(htmlContent)
 
             // chatgpt
-            const tableData: unknown[] = []
-            const etfTable = parsedHtlm('table.etf') // Select the specific ETF table
+            const table = parsedHtlm('table.etf') // Select the specific ETF table
             const headers: string[] = []
-            etfTable
-                .find('thead tr')
-                .eq(1)
-                .find('th')
-                .each((_, th) => {
-                    headers.push(parsedHtlm(th).text().trim())
-                }) // Extract headers
-            etfTable.find('tbody tr').each((_, row) => {
-                const rowData: { [key: string]: string } = {}
+            table.find('th').each((_, element) => {
+                headers.push(parsedHtlm(element).text().trim())
+            })
+            const rows: string[][] = []
+            table.find('tr').each((_, row) => {
+                const rowData: string[] = []
                 parsedHtlm(row)
                     .find('td')
-                    .each((index, cell) => {
-                        const cellText = parsedHtlm(cell).text().trim()
-                        rowData[headers[index]] = cellText
+                    .each((_, cell) => {
+                        rowData.push(parsedHtlm(cell).text().trim())
                     })
-                tableData.push(rowData)
-            }) // Extract rows of data
+                if (rowData.length > 0) {
+                    rows.push(rowData)
+                }
+            })
+            const tableData = rows.map((row) => {
+                const rowObject: { [key: string]: string } = {}
+                headers.forEach((header, i) => {
+                    rowObject[header] = row[i]
+                })
+                return rowObject
+            })
 
             // notify
             toast.success('Refreshed', { style: toastStyle })
