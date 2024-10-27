@@ -35,4 +35,8 @@ export enum IconIds {
     // evm
     TRANSACTION = 'carbon:text-align-center',
     CONTRACT = 'carbon:cics-program',
+
+    // farside
+    RANK = 'solar:ranking-bold-duotone',
+    SCROLL = 'hugeicons:mouse-scroll-01',
 }

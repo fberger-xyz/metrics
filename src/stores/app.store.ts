@@ -30,7 +30,7 @@ export const useAppStore = create<{
         {
             name: 'Xata',
             path: AppPagePaths.XATA,
-            enabled: true,
+            enabled: false,
             sublinks: [],
         },
         {

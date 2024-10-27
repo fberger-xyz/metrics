@@ -22,6 +22,9 @@ export default function HeaderButton(props: { pagePath: AppPagePaths; disabled?:
             if (links[linkIndex].sublinks[sublinkIndex].path === props.pagePath) link = links[linkIndex].sublinks[sublinkIndex]
         }
     }
+
+    // html
+    if (!link?.enabled) return null
     return (
         <LinkWrapper
             href={props.disabled ? pathname : props.pagePath}
