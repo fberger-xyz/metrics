@@ -47,7 +47,10 @@ export function tickerCell(props: { key: string; ticker: EtfTickers | string; fl
                 '-rotate-45 sm:rotate-0 h-8': props.isHeader,
             })}
         >
-            <p className="text-nowrap" style={{ color: props.isHeader || !isNaN(Number(props.flow)) ? getConfig(props.ticker).colors.dark : '' }}>
+            <p
+                className={cn('text-nowrap', { 'bg-background': props.isHeader })}
+                style={{ color: props.isHeader || !isNaN(Number(props.flow)) ? getConfig(props.ticker).colors.dark : '' }}
+            >
                 {props.flow ?? '-'}
             </p>
         </div>
@@ -75,7 +78,7 @@ export function rankCell(props: { rank: string | number; isHeader: boolean }) {
             {props.isHeader ? (
                 <>
                     <p className="hidden text-nowrap md:flex">{props.rank}</p>
-                    <IconWrapper icon={IconIds.RANK} className="w-5" />
+                    <IconWrapper icon={IconIds.RANK} className="h-5 w-5" />
                 </>
             ) : (
                 <p className="text-nowrap">{props.rank}</p>
