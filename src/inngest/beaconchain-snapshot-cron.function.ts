@@ -11,7 +11,7 @@ import { Bot } from 'grammy'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 const format = 'D MMMM YYYY hh:mm:ss A'
-const timestamp = () => dayjs().tz('Europe/Paris').format(format)
+const timestamp = () => dayjs.utc().format(format)
 
 // telegram
 const token = process.env.TELEGRAM_BOT_TOKEN
@@ -69,9 +69,9 @@ export const beaconchainSnapshotCron = inngest.createFunction(
             const before = Date.now()
             const bot = new Bot(token)
             const chatId = channelId
-            const msLine = `Epoch: ${epochMs}ms | Queue: ${queueMs}ms | APR: ${aprMs}ms | Xata: ${xataMs}ms`
-            const message = `Beaconchain metrics snapshot\nDone at ${timestamp()} Paris time\nTrigger: ${event.data?.cron ?? 'invoked'} in ${process.env.NODE_ENV}\n${msLine}`
-            await bot.api.sendMessage(chatId, message)
+            const msLine = `Epoch: ${epochMs}ms ; Queue: ${queueMs}ms ; APR: ${aprMs}ms ; Xata: ${xataMs}ms`
+            const message = `<u><b>Beaconchain Snapshot</b></u>\n${timestamp()} UTC\nTrigger: ${event.data?.cron ?? 'invoked'}\n${msLine}\n<i>Sent from ${process.env.NODE_ENV}</i>`
+            await bot.api.sendMessage(chatId, message, { parse_mode: 'HTML' })
             const after = Date.now()
             return { ms: after - before }
         })
@@ -79,7 +79,7 @@ export const beaconchainSnapshotCron = inngest.createFunction(
         // finally
         return {
             event,
-            body: `Done at ${timestamp()} Paris time`,
+            body: `Done at ${timestamp()} UTC`,
             beaconchain: { epoch, queue, apr },
             ms: { epochMs, queueMs, aprMs, xataMs, telegramMs },
         }
